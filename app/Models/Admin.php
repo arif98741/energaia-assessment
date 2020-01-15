@@ -38,4 +38,9 @@ class Admin extends Authenticatable
     {
         $this->notify(new AdminResetPassword($token));
     }
+
+    public function supply()
+    {
+        return $this->belongsTo(Supply::class);
+    }
 }

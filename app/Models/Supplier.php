@@ -45,7 +45,7 @@ class Supplier extends Authenticatable
     }
 
 
-    public function supplies()
+    public function supply()
     {
         return $this->belongsToMany(Supplier::class);
     }

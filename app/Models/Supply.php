@@ -11,9 +11,8 @@ class Supply extends Model
         return $this->hasMany(Product::class);
     }
 
-
-    public function supplier()
+    public function admins()
     {
-        return $this->hasMany(Supplier::class);
+        return $this->hasMany(Admin::class);
     }
 }

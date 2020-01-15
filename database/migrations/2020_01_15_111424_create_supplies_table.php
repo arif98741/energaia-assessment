@@ -12,12 +12,12 @@ class CreateSuppliesTable extends Migration
         Schema::create('supplies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('admin_id');
             $table->string('amount');
             $table->longText('descriptions');
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('admin_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
