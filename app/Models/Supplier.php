@@ -38,4 +38,15 @@ class Supplier extends Authenticatable
     {
         $this->notify(new SupplierResetPassword($token));
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+
+    public function supplies()
+    {
+        return $this->belongsToMany(Supplier::class);
+    }
 }

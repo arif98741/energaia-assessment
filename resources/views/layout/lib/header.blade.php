@@ -36,16 +36,27 @@
                     Company
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                    @if(Auth::guard('admin')->check())
+
+                    <a class="dropdown-item" data-toggle="dropdown" href="{{ url('/admin/logout') }}" onclick="event.preventDefault();
+              document.getElementById('logout-form').submit();">
+                        <!-- <i class="fas fa-bars"></i> -->Logout
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+
+                    @else
                     <a class="dropdown-item" href="{{ url('admin/login') }}">
                         Login
+                    </a> @endif
+
+                    <a class="dropdown-item" href="{{ url('admin/received_products') }}">
+                        Received Products
                     </a>
-                    <a class="dropdown-item" href="#">
-                        View Products
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                        Something else here
-                    </a>
+
                 </div>
             </li>
         </ul>

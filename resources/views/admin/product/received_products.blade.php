@@ -1,4 +1,4 @@
-@extends('layout.web.master') @section('title','Products') @section('content')
+@extends('layout.web.master') @section('title','Homepage') @section('content')
 <div class="container">
 
     <h1 class="text-center">Products</h1>

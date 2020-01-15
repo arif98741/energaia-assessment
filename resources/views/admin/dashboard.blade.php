@@ -1,7 +1,7 @@
-@extends('layout.web.master') @section('title','Products') @section('content')
+@extends('layout.web.master') @section('title','Homepage') @section('content')
 <div class="container">
 
-    <h1 class="text-center">Products</h1>
+    <h1 class="text-center">Recent Received Products from Supplier</h1>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>

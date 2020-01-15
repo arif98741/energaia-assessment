@@ -11,7 +11,8 @@ $factory->define(Product::class, function (Faker $faker) {
         'title' => $faker->text(50),
         'product_category_id' => ProductCategory::all()->random(),
         'descriptions' => $faker->text(100),
-        'price' => rand(100, 500),
+        'price' => $faker->randomElement([200, 300, 400, 500]),
+        'unit' => $faker->randomElement(['kg', 'liter', 'piece', 'pound', 'ince']),
         'image' => $faker->text(20) . './' . $faker->randomElement(['jpg', 'png', 'jpeg'])
     ];
 });
