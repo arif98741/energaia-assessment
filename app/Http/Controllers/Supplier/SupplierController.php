@@ -13,6 +13,9 @@ use Auth;
 
 class SupplierController extends Controller
 {
+    /**
+     * Supplier Dashboard
+     */
     public function dashboard()
     {
         $data = [
@@ -25,14 +28,15 @@ class SupplierController extends Controller
                 ->get(),
             'supplier' => Auth::guard('supplier')->user()
         ];
-        // return $data['products'];
         return view('supplier.dashboard')->with($data);
     }
 
+    /**
+     * Add Product
+     * return @view
+     */
     public function add_product()
     {
-        //echo Auth::guard('supplier')->user()->id;
-        //exit;
         $data = [
             'categories' => $orders  = ProductCategory::orderBy('name', 'desc')->get()
         ];
@@ -40,7 +44,10 @@ class SupplierController extends Controller
         return view('supplier.product.add_product')->with($data);
     }
 
-
+    /**
+     * Supplier Dashboard
+     * return @view
+     */
     public function save_product(Request $request)
     {
         $product = new Product;
@@ -54,7 +61,10 @@ class SupplierController extends Controller
         return redirect('supplier/product-list');
     }
 
-
+    /**
+     * Product List
+     * return @view
+     */
     public function product_list()
     {
         $data = [
@@ -63,6 +73,12 @@ class SupplierController extends Controller
         return view('supplier.product.product_list')->with($data);
     }
 
+
+    /**
+     * Supply
+     * return @view
+     * handle @request
+     */
     public function supply(Request $request)
     {
         $data = [

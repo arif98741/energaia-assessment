@@ -5,15 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
-use App\Models\ProductCategory;
-use App\Models\Product;
-use App\Models\Supply;
-use App\Models\Supplier;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
 class AdminController extends Controller
 {
+    //admin dashboard
     public function dashboard()
     {
         $data = [
@@ -29,6 +26,7 @@ class AdminController extends Controller
         return view('admin.dashboard')->with($data);
     }
 
+    //recieved supplied products from supplier
     public function received_products()
     {
 
