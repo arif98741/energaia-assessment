@@ -44,12 +44,31 @@
                     <a class="dropdown-item" href="{{ url('supplier/add-product') }}">
                         Add Product
                     </a>
-                    <a class="dropdown-item" href="{{ url('supplier/product-lits') }}">
+                    <a class="dropdown-item" href="{{ url('supplier/product-list') }}">
                         Product List
                     </a>
 
                 </div>
             </li>
+
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Supply
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                    <a class="dropdown-item" href="{{ url('supplier/supply') }}">
+                        Supply Product
+                    </a>
+                    <a class="dropdown-item" href="{{ url('supplier/dashboard') }}">
+                        Supplied List
+                    </a>
+
+                </div>
+            </li>
+
+
             <li class="nav-item">
                 <a class="dropdown-item" href="{{ url('/supplier/logout') }}" onclick="event.preventDefault();
               document.getElementById('logout-form2').submit();">

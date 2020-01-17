@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Supplier;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Session;
 use App\Models\ProductCategory;
+use App\Models\Admin;
 use App\Models\Product;
 use App\Models\Supply;
-use App\Models\Supplier;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
@@ -22,7 +21,7 @@ class SupplierController extends Controller
                 ->join('admins', 'supplies.admin_id', '=', 'admins.id')
                 ->join('products', 'products.id', '=', 'supplies.product_id')
                 ->join('suppliers', 'suppliers.id', '=', 'products.supplier_id')
-                //->where('suppliers.id', Auth::guard('supplier')->user()->id)
+                ->where('suppliers.id', Auth::guard('supplier')->user()->id)
                 ->get(),
             'supplier' => Auth::guard('supplier')->user()
         ];
@@ -32,32 +31,55 @@ class SupplierController extends Controller
 
     public function add_product()
     {
-
+        //echo Auth::guard('supplier')->user()->id;
+        //exit;
         $data = [
-            'categories' => $orders  = ProductCategory::orderBy('name', 'desc')
+            'categories' => $orders  = ProductCategory::orderBy('name', 'desc')->get()
         ];
+
         return view('supplier.product.add_product')->with($data);
     }
 
 
-    public function save_product()
+    public function save_product(Request $request)
     {
+        $product = new Product;
+        $product->title = $request->title;
+        $product->supplier_id = Auth::guard('supplier')->user()->id;
+        $product->product_category_id = $request->product_category_id;
+        $product->price = $request->price;
+        $product->unit = $request->unit;
+        $product->descriptions = $request->descriptions;
+        $product->save();
+        return redirect('supplier/product-list');
     }
 
 
     public function product_list()
     {
-
         $data = [
-            'products' => $orders  =  DB::table('supplies')
-                ->join('admins', 'supplies.admin_id', '=', 'admins.id')
-                ->join('products', 'products.id', '=', 'supplies.product_id')
-                ->where('orders.id', $id)
-                ->get()->toArray()
+            'products' => Product::with(['product_category'])->where('supplier_id', Auth::guard('supplier')->user()->id)->get()
+        ];
+        return view('supplier.product.product_list')->with($data);
+    }
+
+    public function supply(Request $request)
+    {
+        $data = [
+            'products' =>  Product::orderBy('title', 'asc')->where('supplier_id', Auth::guard('supplier')->user()->id)->get(),
+            'companies' => Admin::orderBy('name', 'asc')->get(),
         ];
 
-        return $data['products'];
+        if ($request->isMethod('post')) {
+            $supply = new Supply;
+            $supply->product_id = $request->product_id;
+            $supply->admin_id = $request->admin_id;
+            $supply->amount = $request->amount;
+            $supply->descriptions = $request->descriptions;
+            $supply->save();
+            return redirect('supplier/dashboard');
+        }
 
-        return view('admin.product.received_products')->with($data);
+        return view('supplier.supply.add_supply')->with($data);
     }
 }
