@@ -1,79 +1,47 @@
 <?php
 
-namespace App\Http\Controllers\Supplier\Auth;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Http\Request;
+use Session;
+use App\Models\ProductCategory;
+use App\Models\Product;
+use App\Models\Supply;
+use App\Models\Supplier;
+use Illuminate\Support\Facades\DB;
+use Auth;
 
-class ResetPasswordController extends Controller
+class SupplierController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
-
-    use ResetsPasswords;
-
-    /**
-     * Where to redirect users after login / registration.
-     *
-     * @var string
-     */
-    public $redirectTo = '/supplier/home';
-
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function dashboard()
     {
-        $this->middleware('supplier.guest');
+        $data = [
+            'products' => $orders  =  DB::table('supplies')
+                ->join('admins', 'supplies.admin_id', '=', 'admins.id')
+                ->join('products', 'products.id', '=', 'supplies.product_id')
+                ->join('suppliers', 'suppliers.id', '=', 'products.supplier_id')
+                ->where('supplies.admin_id', Auth::guard('admin')->user()->id)
+                ->get()
+        ];
+
+        return view('admin.dashboard')->with($data);
     }
 
-    /**
-     * Display the password reset view for the given token.
-     *
-     * If no token is present, display the link request form.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string|null  $token
-     * @return \Illuminate\Http\Response
-     */
-    public function showResetForm(Request $request, $token = null)
+    public function received_products()
     {
-        return view('supplier.auth.passwords.reset')->with(
-            ['token' => $token, 'email' => $request->email]
-        );
-    }
 
-    /**
-     * Get the broker to be used during password reset.
-     *
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
-     */
-    public function broker()
-    {
-        return Password::broker('suppliers');
-    }
 
-    /**
-     * Get the guard to be used during password reset.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected function guard()
-    {
-        return Auth::guard('supplier');
+        $data = [
+            'products' => $orders  =  DB::table('supplies')
+                ->join('admins', 'supplies.admin_id', '=', 'admins.id')
+                ->join('products', 'products.id', '=', 'supplies.product_id')
+                ->where('orders.id', $id)
+                ->get()->toArray()
+        ];
+
+        return $data['products'];
+
+        return view('admin.product.received_products')->with($data);
     }
 }

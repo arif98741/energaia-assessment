@@ -10,55 +10,77 @@
                 <a class="nav-link" href="{{ url('/') }}">
                     Home </a>
             </li>
+
+            @if(Auth::guard('admin')->check())
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/products') }}">
-                    Products
-                </a>
+                <a href="{{ url('admin/dashboard') }}" class="nav-link">Dashboard</a>
             </li>
+
+            <li class="nav-item">
+                <a class="dropdown-item" data-toggle="dropdown" href="{{ url('/admin/logout') }}" onclick="event.preventDefault();
+              document.getElementById('logout-form1').submit();">
+                    <i class="fas fa-bars"></i>Logout
+                </a>
+
+                <form id="logout-form1" action="{{ url('admin/logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </li>
+
+
+            @elseif(Auth::guard('supplier')->check())
+            <li class="nav-item">
+                <a href="{{ url('supplier/dashboard') }}" class="nav-link">Dashboard</a>
+            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Supplier
+                    Product
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ url('supplier/login') }}">
-                        Login
-                    </a>
-                    <a class="dropdown-item" href="#">
-                        Supply Products
-                    </a>
 
+
+
+                    <a class="dropdown-item" href="{{ url('supplier/add-product') }}">
+                        Add Product
+                    </a>
+                    <a class="dropdown-item" href="{{ url('supplier/product-lits') }}">
+                        Product List
+                    </a>
 
                 </div>
             </li>
+            <li class="nav-item">
+                <a class="dropdown-item" href="{{ url('/supplier/logout') }}" onclick="event.preventDefault();
+              document.getElementById('logout-form2').submit();">
+                    <!-- <i class="fas fa-bars"></i> -->Logout
+                </a>
+                <form id="logout-form2" action="{{ url('supplier/logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </li>
 
+            @else
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Company
+                    Login
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                    @if(Auth::guard('admin')->check())
 
-                    <a class="dropdown-item" data-toggle="dropdown" href="{{ url('/admin/logout') }}" onclick="event.preventDefault();
-              document.getElementById('logout-form').submit();">
-                        <!-- <i class="fas fa-bars"></i> -->Logout
-                    </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form>
-
-                    @else
                     <a class="dropdown-item" href="{{ url('admin/login') }}">
-                        Login
-                    </a> @endif
-
-                    <a class="dropdown-item" href="{{ url('admin/received_products') }}">
-                        Received Products
+                        Company Login
+                    </a>
+                    <a class="dropdown-item" href="{{ url('supplier/login') }}">
+                        Supplier Login
                     </a>
 
                 </div>
             </li>
+
+            @endif
+
         </ul>
     </div>
 </nav>

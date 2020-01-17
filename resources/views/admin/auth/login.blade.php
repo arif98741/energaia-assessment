@@ -1,9 +1,9 @@
 @extends('layout.web.master') @section('content')
 <div class="container">
     <div class="row">
-        <div class="offset-md-4 col-md-8 mt-5">
+        <div class="offset-md-2 col-md-8 mt-5">
             <div class="panel panel-default">
-                <div class="panel-heading">Company Login</div>
+                <div class="panel-heading bg-primary">Company Login</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/login') }}">
                         {{ csrf_field() }}

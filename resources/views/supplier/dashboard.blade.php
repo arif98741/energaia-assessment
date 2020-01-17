@@ -1,7 +1,9 @@
 @extends('layout.web.master') @section('title','Homepage') @section('content')
-<div class="container">
+<div class="container mt-4">
 
-    <h1 class="text-center">Recent Received Products from Supplier</h1>
+    <h1 class="text-center">Dashboard</h1>
+    <h3 class="text-center">Supplied Products </h3>
+    <h3 class="">Supplier: {{ $supplier->name }} </h3>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -11,8 +13,8 @@
                 <th scope="col">Amount</th>
                 <th scope="col">Total</th>
                 <th scope="col">Details</th>
-                <th scope="col">Received on</th>
-                <th scope="col">Supplier</th>
+                <th scope="col">Company</th>
+                <th scope="col">Sent on</th>
             </tr>
         </thead>
         <tbody>
@@ -24,9 +26,8 @@
                 <td class="text-center">{{ $product->amount.' ' }}@if($product->amount > 1) {{ $product->unit.'s' }} @else {{ $product->unit }} @endif</td>
                 <td class="text-center">{{ $product->price * $product->amount }}</td>
                 <td>{{ substr($product->descriptions,0,20) }}...</td>
-                <td>{{ date('d-m-Y',strtotime($product->created_at)) }}</td>
                 <td>{{ $product->name }}</td>
-
+                <td>{{ date('d-m-Y',strtotime($product->created_at)) }}</td>
 
             </tr>
             @endforeach
